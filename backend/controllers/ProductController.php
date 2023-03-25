@@ -2,8 +2,10 @@
 
 namespace Scandiweb\Controllers;
 
+use Scandiweb\Models\Dvd;
+use Scandiweb\Models\Book;
 use Scandiweb\Models\Product;
-use Scandiweb\Databases\SqliteDatabase;
+use Scandiweb\Models\Furniture;
 
 class ProductController extends BaseController
 {
@@ -14,7 +16,7 @@ class ProductController extends BaseController
 
         if (strtoupper($requestMethod) == 'GET') {
             try {
-                $product = new Product(new SqliteDatabase());
+                $product = new Product();
 
                 $products = $product->getProducts();
 
@@ -25,28 +27,50 @@ class ProductController extends BaseController
             }
         } else if (strtoupper($requestMethod) == 'POST') {
             try {
-                //$product = new Product();
+                $content = trim(file_get_contents("php://input"));
+                $data = json_decode($content, true);
 
-                //$products = $product->addProduct();
+                if ($data["type"] === "dvd") {
+                    $product = new Dvd();
+                    $product->setSize($data['size']);
+                } else if ($data["type"] === "furniture") {
+                    $product = new Furniture();
+                    $product->setWidth($data['width']);
+                    $product->setHeight($data['height']);
+                    $product->setLength($data['length']);
+                } else if ($data["type"] === "book") {
+                    $product = new Book();
+                    $product->setWeight($data['weight']);
+                }
 
-                //$responseData = json_encode($products);
-                $responseData = json_encode([['status', 'error'], ['message', 'Not implemented yet!']]);
+                if ($data["type"] === "dvd" || $data["type"] === "furniture" || $data["type"] === "book") {
+                    $product->setSKU($data['sku']);
+                    $product->setName($data['name']);
+                    $product->setPrice($data['price']);
+                    $product = $product->addProduct();
+                    $responseData = json_encode($product);
+                } else {
+                    $responseData = json_encode([['status', 'error'], ['message', "Product type {$data['type']} not found!"]]);
+                }
             } catch (Error $e) {
                 $strErrorDesc = $e->getMessage();
                 $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
             }
         } else if (strtoupper($requestMethod) == 'DELETE') {
             try {
-                //$product = new Product();
+                $content = trim(file_get_contents("php://input"));
+                $data = json_decode($content, true);
 
-                //$products = $product->deleteProducts($idx);
+                $product = new Product();
+                $products = $product->deleteProducts($data);
 
-                //$responseData = json_encode($products);
-                $responseData = json_encode([['status', 'error'], ['message', 'Not implemented yet!']]);
+                $responseData = json_encode($products);
             } catch (Error $e) {
                 $strErrorDesc = $e->getMessage();
                 $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
             }
+        } else if (strtoupper($requestMethod) == 'OPTIONS') {
+            $responseData = json_encode([['status', 'ok'], ['message', "OK"]]);
         } else {
             $strErrorDesc = 'Method not supported';
             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';

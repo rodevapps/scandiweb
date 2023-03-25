@@ -11,6 +11,9 @@ require_once PROJECT_ROOT_PATH . '/databases/MysqlDatabase.php';
 
 require_once PROJECT_ROOT_PATH . '/models/IProduct.php';
 require_once PROJECT_ROOT_PATH . '/models/Product.php';
+require_once PROJECT_ROOT_PATH . '/models/Dvd.php';
+require_once PROJECT_ROOT_PATH . '/models/Book.php';
+require_once PROJECT_ROOT_PATH . '/models/Furniture.php';
 
 require_once PROJECT_ROOT_PATH . '/controllers/BaseController.php';
 require_once PROJECT_ROOT_PATH . "/controllers/ProductController.php";

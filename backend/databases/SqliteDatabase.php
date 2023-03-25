@@ -34,28 +34,30 @@ class SqliteDatabase extends Database
 
             return $res;
         } catch(Exception $e) {
-            throw new Exception($e->getMessage());
+            return ["status" => "error", "message" => $e->getMessage()];
         }
-
-        return [];
     }
 
     public function generate() {
-        $this->drop();
+        try {
+            $this->drop();
 
-        $this->_connection->exec('CREATE TABLE products (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            sku VARCHAR(255) NOT NULL UNIQUE,
-            name TEXT NOT NULL,
-            price FLOAT NOT NULL,
-            product_type VARCHAR(100) NOT NULL,
-            size FLOAT DEFAULT NULL,
-            weight FLOAT DEFAULT NULL,
-            height FLOAT DEFAULT NULL,
-            width FLOAT DEFAULT NULL,
-            length FLOAT DEFAULT NULL
-        );');
+            $this->_connection->exec('CREATE TABLE products (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                sku VARCHAR(255) NOT NULL UNIQUE,
+                name TEXT NOT NULL,
+                price FLOAT NOT NULL,
+                product_type VARCHAR(100) NOT NULL,
+                size FLOAT DEFAULT NULL,
+                weight FLOAT DEFAULT NULL,
+                height FLOAT DEFAULT NULL,
+                width FLOAT DEFAULT NULL,
+                length FLOAT DEFAULT NULL
+            );');
 
-        $this->seed();
+            $this->seed();
+        } catch(Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 }

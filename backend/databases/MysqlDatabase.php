@@ -38,30 +38,32 @@ class MysqlDatabase extends Database
     
             return $res;
         } catch(Exception $e) {
-            throw new Exception($e->getMessage());
+            return ["status" => "error", "message" => $e->getMessage()];
         }
-
-        return [];
     }
 
     public function generate() {
-        $this->drop();
+        try {
+            $this->drop();
 
-        $this->connection->exec('CREATE TABLE product (
-            id INTEGER AUTO_INCREMENT,
-            sku VARCHAR(255) NOT NULL,
-            name TEXT NOT NULL,
-            price FLOAT NOT NULL,
-            product_type VARCHAR(100) NOT NULL,
-            size FLOAT DEFAULT NULL,
-            weight FLOAT DEFAULT NULL,
-            height FLOAT DEFAULT NULL,
-            width FLOAT DEFAULT NULL,
-            length FLOAT DEFAULT NULL,
-            PRIMARY KEY ( id ),
-            UNIQUE KEY ( sku )
-        );');
+            $this->connection->exec('CREATE TABLE product (
+                id INTEGER AUTO_INCREMENT,
+                sku VARCHAR(255) NOT NULL,
+                name TEXT NOT NULL,
+                price FLOAT NOT NULL,
+                product_type VARCHAR(100) NOT NULL,
+                size FLOAT DEFAULT NULL,
+                weight FLOAT DEFAULT NULL,
+                height FLOAT DEFAULT NULL,
+                width FLOAT DEFAULT NULL,
+                length FLOAT DEFAULT NULL,
+                PRIMARY KEY ( id ),
+                UNIQUE KEY ( sku )
+            );');
 
-        $this->populate();
+            $this->populate();
+        } catch(Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 }

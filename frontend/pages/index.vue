@@ -6,13 +6,13 @@
     <div class="separator"></div>
     <div>
       <button class="vertical-center"><NuxtLink to="/add-product">ADD</NuxtLink></button>
-      <button id="delete-product-button" class="vertical-center" style="margin-left: 10px;">MASS DELETE</button>
+      <button id="delete-product-button" class="vertical-center" style="margin-left: 10px;" @click="massDelete()">MASS DELETE</button>
     </div>
   </div>
   <p class="text-center" v-if="isLoading">Loading products...</p>
   <div class="grid-container">
     <div class="grid-item" v-for="p in products" :key="p.id">
-      <input type="checkbox" class="delete-checkbox" />
+      <input type="checkbox" :value="p.id" class="delete-checkbox" v-model="checkedProducts" />
       <p class="text-center">{{ p.sku }}</p>
       <p class="text-center"><strong>{{ p.title }}</strong></p>
       <p class="text-center"><strong>{{ p.price }}</strong>$</p>
@@ -24,10 +24,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue';
+
+import requestData from '../functions/common.js';
 
 const isLoading = ref(true);
 const products = ref([]);
+const checkedProducts = ref([]);
+
+const massDelete = () => {
+    console.log(checkedProducts.value);
+
+    requestData("http://localhost:8000", "DELETE", checkedProducts.value).then(data => {
+        console.log(JSON.parse(data));
+
+        if (JSON.parse(data).status === "success") {
+            const currentProducts = products.value.filter(i => !checkedProducts.value.includes(i.id));
+            console.log(currentProducts);
+            products.value = currentProducts;
+        }
+    });
+}
 
 onMounted(() => {
     fetch('http://localhost:8000').then(response => response.json()).then(data => {
