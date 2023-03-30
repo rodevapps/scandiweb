@@ -78,6 +78,8 @@ import { ref } from 'vue';
 
 import requestData from '../functions/common.js';
 
+const config = useRuntimeConfig();
+
 const submitted = ref(false);
 const form = ref({sku: '', name: '', price: '', type: '', size: '', height: '', width: '', length: '', weight: ''});
 const msg = ref({sku: '', name: '', price: '', type: '', size: '', height: '', width: '', length: '', weight: ''});
@@ -132,7 +134,7 @@ const submit = async () => {
 
         console.log(form.value);
 
-        requestData("http://localhost:8000", "POST", form.value).then(data => {
+        requestData(config.BACKEND_URL, "POST", form.value).then(data => {
             console.log(data);
         });
 

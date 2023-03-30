@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+    www:
+        build: .
+        ports:
+            - "8000:80"
+        volumes:
+            - ./backend:/var/www/html/
+        links:
+            - db
+        networks:
+            - default
+    db:
+        image: mysql:8.0.32
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: scandiweb
+            MYSQL_USER: test
+            MYSQL_PASSWORD: test
+            MYSQL_ROOT_PASSWORD: test
+        volumes:
+            - ./backend/databases/mysql:/var/lib/mysql
+        networks:
+            - default

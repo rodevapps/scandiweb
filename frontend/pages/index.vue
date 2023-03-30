@@ -28,6 +28,8 @@ import { ref, onMounted } from 'vue';
 
 import requestData from '../functions/common.js';
 
+const config = useRuntimeConfig();
+
 const isLoading = ref(true);
 const products = ref([]);
 const checkedProducts = ref([]);
@@ -35,7 +37,7 @@ const checkedProducts = ref([]);
 const massDelete = () => {
     console.log(checkedProducts.value);
 
-    requestData("http://localhost:8000", "DELETE", checkedProducts.value).then(data => {
+    requestData(config.BACKEND_URL, "DELETE", checkedProducts.value).then(data => {
         console.log(JSON.parse(data));
 
         if (JSON.parse(data).status === "success") {
@@ -47,7 +49,7 @@ const massDelete = () => {
 }
 
 onMounted(() => {
-    fetch('http://localhost:8000').then(response => response.json()).then(data => {
+    fetch(config.BACKEND_URL).then(response => response.json()).then(data => {
         console.log(data);
         products.value = data;
         isLoading.value = false
