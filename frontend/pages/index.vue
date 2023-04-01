@@ -14,7 +14,7 @@
     <div class="grid-item" v-for="p in products" :key="p.id">
       <input type="checkbox" :value="p.id" class="delete-checkbox" v-model="checkedProducts" />
       <p class="text-center">{{ p.sku }}</p>
-      <p class="text-center"><strong>{{ p.title }}</strong></p>
+      <p class="text-center"><strong>{{ p.name }}</strong></p>
       <p class="text-center"><strong>{{ p.price }}</strong>$</p>
       <p class="text-center" v-if="p.size !== null" >Size: <strong>{{ p.size }}MB</strong></p>
       <p class="text-center" v-if="p.weight !== null" >Weight: <strong>{{ p.weight }}KG</strong></p>
