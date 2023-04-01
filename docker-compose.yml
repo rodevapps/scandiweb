@@ -21,7 +21,7 @@ services:
             MYSQL_PASSWORD: test
             MYSQL_ROOT_PASSWORD: test
         volumes:
-            - ./backend/databases/mysql:/var/lib/mysql
+            - ./mysql:/var/lib/mysql
         networks:
             - default
         restart: always
