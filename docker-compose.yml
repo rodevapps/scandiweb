@@ -10,6 +10,7 @@ services:
             - db
         networks:
             - default
+        restart: always
     db:
         image: mysql:8.0.32
         ports:
@@ -23,3 +24,4 @@ services:
             - ./backend/databases/mysql:/var/lib/mysql
         networks:
             - default
+        restart: always
