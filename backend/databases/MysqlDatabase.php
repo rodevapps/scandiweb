@@ -32,10 +32,10 @@ class MysqlDatabase extends Database
     
                     foreach($row as $k => $v) {
                         if (!is_numeric($k)) {
-                            $res[$k] = $v;
+                            $r[$k] = $v;
                         }
                     }
-    
+
                     $res[] = $r;
                 }
         
