@@ -3,6 +3,7 @@
 namespace Scandiweb\Models;
 
 use Scandiweb\Databases\IDatabase;
+use Scandiweb\Databases\MysqlDatabase;
 use Scandiweb\Databases\SqliteDatabase;
 
 class Product implements IProduct
