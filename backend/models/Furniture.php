@@ -9,7 +9,7 @@ class Furniture extends Product
     private readonly float $_length;
 
     public function addProduct() {
-        return $this->_db->exec('INSERT INTO products ("sku", "name", "price", "product_type", "height", "weight", "length") VALUES ("' . $this->getSKU() . '", "' . $this->getName() . '", "' . $this->getPrice() . '", "furniture", "' . $this->getHeight() . '", "' . $this->getWidth() . '", "' . $this->getLength() . '")');
+        return $this->_db->exec('INSERT INTO products (sku, name, price, product_type, height, weight, length) VALUES ("' . $this->getSKU() . '", "' . $this->getName() . '", "' . $this->getPrice() . '", "furniture", "' . $this->getHeight() . '", "' . $this->getWidth() . '", "' . $this->getLength() . '")');
     }
 
     public function getHeight() {
