@@ -18,21 +18,25 @@ class SqliteDatabase extends Database
         try {
             $result = $this->_connection->query($query);
 
-            $res = [];
+            if ($result->numColumns()) {
+                $res = [];
 
-            while ($row = $result->fetchArray()) {
-                $r = [];
-
-                foreach($row as $k => $v) {
-                    if (!is_numeric($k)) {
-                        $r[$k] = $v;
+                while ($row = $result->fetchArray()) {
+                    $r = [];
+    
+                    foreach($row as $k => $v) {
+                        if (!is_numeric($k)) {
+                            $r[$k] = $v;
+                        }
                     }
+    
+                    $res[] = $r;
                 }
 
-                $res[] = $r;
+                return $res;
+            } else {
+                return true;
             }
-
-            return $res;
         } catch(Exception $e) {
             return ["status" => "error", "message" => $e->getMessage()];
         }
@@ -42,7 +46,7 @@ class SqliteDatabase extends Database
         try {
             $this->drop();
 
-            $this->_connection->exec('CREATE TABLE products (
+            $this->query('CREATE TABLE products (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 sku VARCHAR(255) NOT NULL UNIQUE,
                 name TEXT NOT NULL,

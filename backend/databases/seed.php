@@ -2,9 +2,9 @@
 
 require __DIR__ . "/../configs/bootstrap.php";
 
-use Scandiweb\Databases\SqliteDatabase;
+use Scandiweb\Databases\MysqlDatabase;
 
-$db = new SqliteDatabase();
+$db = new MysqlDatabase();
 
 $db->generate();
 
