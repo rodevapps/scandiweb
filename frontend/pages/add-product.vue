@@ -3,7 +3,7 @@
     <div>
       <h1>Product Add</h1>
     </div>
-    <div class="separator"></div>
+    <div class="separator"><span v-if="saving" class="text-error vertical-center">Saving to database, please wait...</span></div>
     <div>
       <button class="vertical-center" @click="submit()">Save</button>
       <button id="delete-product-button" class="vertical-center" style="margin-left: 10px;"><NuxtLink to="/">Cancel</NuxtLink></button>
@@ -80,6 +80,7 @@ import requestData from '../functions/common.js';
 
 const config = useRuntimeConfig();
 
+const saving = ref(false);
 const submitted = ref(false);
 const form = ref({sku: '', name: '', price: '', type: '', size: '', height: '', width: '', length: '', weight: ''});
 const msg = ref({sku: '', name: '', price: '', type: '', size: '', height: '', width: '', length: '', weight: ''});
@@ -120,7 +121,7 @@ const validate = (element?: string): number => {
     return i;
 }
 
-const submit = async () => {
+const submit = () => {
     submitted.value = true;
 
     console.log(form.value);
@@ -131,6 +132,7 @@ const submit = async () => {
 
     if (!i) {
         submitted.value = false;
+        saving.value = true;
 
         console.log(form.value);
 
@@ -144,7 +146,7 @@ const submit = async () => {
 
         console.log('Form submitted.');
 
-        await navigateTo({ path: '/' });
+        setTimeout(() => navigateTo({ path: '/' }), 5000);
     }
 }
 </script>
