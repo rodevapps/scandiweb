@@ -12,6 +12,7 @@ if (isset($uri[1]) && $uri[1] != '') {
 }
 
 header('Access-Control-Allow-Headers: *');
+header('Access-Control-Allow-Origin: *');
 
 //print_r($uri);
 
